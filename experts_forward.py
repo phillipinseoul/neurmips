@@ -42,6 +42,8 @@ def forward_pass(
     color_gt = data['color'].to(device)
     points_dense = data['points'].to(device)
 
+    color_gt_ori = color_gt     # Save the original form of color_gt: [H, W, C]
+
     timer = Timer(cuda_sync= not training)
     if training:
         model.train()
@@ -68,13 +70,13 @@ def forward_pass(
         loss += loss_point2plane * cfg.loss_weight.point2plane
         loss.backward()
         optimizer.step()
-    
+
     psnr = compute_psnr(color_gt, color_pred)
     ssim = compute_ssim(color_gt, color_pred) if not training else 0
 
     stats = {
         'mse_color': mse_color.detach().cpu().item(),
-        # 'mse_point2plane': loss_point2plane.detach().cpu().item(),
+        'mse_point2plane': loss_point2plane.detach().cpu().item(),
         'psnr': psnr,
         'ssim': ssim,
         'FPS': 1/time,
@@ -83,7 +85,7 @@ def forward_pass(
     images = {
         'depth_pred': depth_pred,
         'color_gt': color_gt,
-        'color_pred': color_pred 
+        'color_pred': color_pred,
     }
     return stats, images
 

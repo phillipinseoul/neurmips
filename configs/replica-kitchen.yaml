@@ -7,7 +7,7 @@ notes: '
   [Reg.] oscillate NDC
 '
 seed: 0
-cuda: '0'
+cuda: '6'
 data:
   path: 'data/replica/kitchen/'
   image_size: [512, 512]

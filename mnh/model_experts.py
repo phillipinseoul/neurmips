@@ -162,6 +162,7 @@ class ModelExperts(nn.Module):
             alpha_sum = torch.sum(alpha_weight, dim=0).unsqueeze(-1) #(point_n, 1)
             white = torch.ones_like(color) #(point_n, 3)
             color = color + (1 - alpha_sum) * white
+
         return color, depth
 
     def no_hit_output(self, ndc_points):
@@ -311,6 +312,7 @@ class ModelExperts(nn.Module):
 
     def forward_full_image(self, camera, ndc_points_full):
         img_pixel_num = ndc_points_full.size(0)
+        
         if self.n_infer_sample > 0:
             sample_num = self.n_infer_sample
         else:

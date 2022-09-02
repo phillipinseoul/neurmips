@@ -11,6 +11,8 @@ from mnh.stats import StatsLogger
 from mnh.utils import *
 from teacher_forward import *
 
+from torch.utils.tensorboard import SummaryWriter
+
 CURRENT_DIR = os.path.realpath('.')
 CONFIG_DIR = os.path.join(CURRENT_DIR, 'configs')
 CHECKPOINT_DIR = os.path.join(CURRENT_DIR, 'checkpoints')
@@ -21,6 +23,19 @@ def main(cfg: DictConfig):
     # Set random seed for reproduction
     np.random.seed(cfg.seed)
     torch.manual_seed(cfg.seed)
+
+    # Set tensorboard SummaryWriter
+    TB_LOG_DIR = os.path.join(CURRENT_DIR, cfg.data.path, 'tboard_logs_teacher')
+    if not os.path.exists(TB_LOG_DIR):
+        os.makedirs(TB_LOG_DIR)
+
+    # Make a separate directory for each run
+    n_runs = 0
+    while os.path.exists(os.path.join(TB_LOG_DIR, f'run_{n_runs}')):
+        n_runs += 1
+    TB_RUN_DIR = os.path.join(TB_LOG_DIR, f'run_{n_runs}')
+    
+    tboard_logger = SummaryWriter(TB_RUN_DIR)
 
     # Set device for training
     device = None
@@ -103,9 +118,17 @@ def main(cfg: DictConfig):
         model.train()
         stats_logger.new_epoch()
 
+        # Average the losses for each epoch
+        mse_color = 0
+        mse_point2plane = 0
+        loss_area = 0
+        psnr = 0 
+        ssim = 0
+
         for i, data in enumerate(train_loader):
             data = data[0]
-            train_stats, _ = forward_pass(
+
+            train_stats, train_images = forward_pass(
                 data, 
                 model,
                 device,
@@ -113,7 +136,19 @@ def main(cfg: DictConfig):
                 optimizer,
                 training=True,
             )
+            mse_color += train_stats['mse_color']
+            mse_point2plane += train_stats['mse_point2plane']
+            loss_area += train_stats['loss_area']
+            psnr += train_stats['psnr']
+            ssim += train_stats['ssim']
             stats_logger.update('train', train_stats)
+
+        # Add results to tensorboard
+        tboard_logger.add_scalar('loss/mse_color', mse_color / len(train_loader), epoch)
+        tboard_logger.add_scalar('loss/mse_point2plane', mse_point2plane / len(train_loader), epoch)
+        tboard_logger.add_scalar('loss/loss_area', loss_area / len(train_loader), epoch)
+        tboard_logger.add_scalar('eval/psnr', psnr / len(train_loader), epoch)
+        tboard_logger.add_scalar('eval/ssim', ssim / len(train_loader), epoch)
         
         stats_logger.print_info('train')
         lr_scheduler.step()

@@ -87,7 +87,7 @@ def list2txt(list, path):
             f.write('{}\n'.format(val))
 
 def is_image_file(file_name):
-    if file_name.endswith('.png') or file_name.endswith('.jpg'):
+    if file_name.endswith('.png') or file_name.endswith('.jpg') or file_name.endswith('.JPG'):
         return True
     else:
         return False

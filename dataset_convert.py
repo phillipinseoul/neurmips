@@ -120,6 +120,7 @@ def main():
         # convert camera pose (intrinsic)
         cameras_txt_path = os.path.join(OUTPUT_SCENE_DIR, 'cameras.txt')
         intrinsic_path = os.path.join(SCENE_DIR, "intrinsics.txt")
+        
         with open(cameras_txt_path, 'w') as f_out:
             # note that we store it by following COLMAP 'cameras.txt' format
             f_out.writelines(['# Camera list with one line of data per camera:\n', \

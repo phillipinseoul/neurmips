@@ -1,25 +1,25 @@
-name: 'tat-barn'
+name: 'tat-llff-room'
 notes: '
-  [Data] Barn
+  [Data] LLFF Room
   [Model] 1000 planes
   [init] dense points (w/o box)
   [Loss] mse_color + mse_point2plane + area_reg.
   [Reg.] oscillate NDC
 '
 seed: 0
-cuda: '5'
+cuda: '6'
 data:
-  path: 'data/TanksAndTemple/Barn'
-  image_size: [1080, 1920]
+  path: 'data/TanksAndTemple/llff_room'
+  image_size: [1800, 2400]
   sample_rate: 0.2
   batch_points: 10000
   white_bg: True
 checkpoint:
-  teacher: 'tat-barn-teacher.pth'
-  experts: 'tat-barn-experts.pth'
+  teacher: 'tat-llff_room-teacher.pth'
+  experts: 'tat-llff_room-experts.pth'
 
 model:
-  n_plane:1000
+  n_plane: 1000
   n_train_sample: 10000
   n_infer_sample: 10000
   anti_aliasing: True

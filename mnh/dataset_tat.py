@@ -25,6 +25,7 @@ def screen_to_ndc(intrinsic):
     px_new = -(px - half_w) / half_w
     py_new = -(py - half_h) / half_h
     return [W, H, fx_new, fy_new, px_new, py_new]
+
 class TanksAndTemplesDataset(Dataset):
     def __init__(
         self,

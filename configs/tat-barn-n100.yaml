@@ -19,7 +19,7 @@ checkpoint:
   experts: 'tat-barn-experts.pth'
 
 model:
-  n_plane:1000
+  n_plane: 100
   n_train_sample: 10000
   n_infer_sample: 10000
   anti_aliasing: True

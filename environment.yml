@@ -29,7 +29,7 @@ dependencies:
   - configparser=5.0.2=pyhd8ed1ab_0
   - coverage=5.5=py38h27cfd23_2
   - cryptography=3.4.7=py38hd23ed53_0
-  - cudatoolkit=10.2.89=hfd86e86_1
+  # - cudatoolkit=10.2.89=hfd86e86_1
   - curl=7.77.0=hea6ffbf_0
   - cycler=0.10.0=py38_0
   - cytoolz=0.11.0=py38h7b6447c_0
@@ -182,8 +182,8 @@ dependencies:
   - python=3.8.10=h12debd9_8
   - python-dateutil=2.8.1=pyhd3eb1b0_0
   - python_abi=3.8=1_cp38
-  - pytorch=1.7.1=py3.8_cuda10.2.89_cudnn7.6.5_0
-  - pytorch3d=0.5.0=py38_cu102_pyt171
+  # - pytorch=1.7.1=py3.8_cuda10.2.89_cudnn7.6.5_0
+  # - pytorch3d=0.5.0=py38_cu102_pyt171
   - pytz=2021.1=pyhd3eb1b0_0
   - pywavelets=1.1.1=py38h7b6447c_2
   - pyyaml=5.4.1=py38h27cfd23_1

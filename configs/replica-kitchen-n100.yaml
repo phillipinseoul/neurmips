@@ -1,34 +1,34 @@
-name: 'tat-barn'
+name: 'replica-kitchen'
 notes: '
-  [Data] Barn
-  [Model] 1000 planes
-  [init] dense points (w/o box)
+  [Data] kitchen
+  [Model] 500 planes
+  [init] dense points (w/ box)
   [Loss] mse_color + mse_point2plane + area_reg.
   [Reg.] oscillate NDC
 '
 seed: 0
-cuda: '5'
+cuda: '6'
 data:
-  path: 'data/TanksAndTemple/Barn'
-  image_size: [1080, 1920]
-  sample_rate: 0.2
+  path: 'data/replica/kitchen/'
+  image_size: [512, 512]
+  sample_rate: 1.0
   batch_points: 10000
-  white_bg: True
+  white_bg: False
 checkpoint:
-  teacher: 'tat-barn-teacher.pth'
-  experts: 'tat-barn-experts.pth'
+  teacher: 'replica-kitchen-n100-teacher.pth'
+  experts: 'replica-kitchen-n100-experts.pth'
 
 model:
-  n_plane:1000
-  n_train_sample: 10000
-  n_infer_sample: 10000
+  n_plane: 100 # 500
+  n_train_sample: 4096
+  n_infer_sample: 4096
   anti_aliasing: True
   premultiply_alpha: False
   init:
     lrf_neighbors: 100
-    wh: 0.3
-    box_factor: 2
-    random_rate: 0.9
+    wh: 2
+    box_factor: 4
+    random_rate: 0.0
   mlp_teacher:
     n_harmonic_functions_pos: 10
     n_harmonic_functions_dir: 4
@@ -50,7 +50,7 @@ model:
 loss_weight:
   color: 1.0
   point2plane: 1.0
-  area: 0.00005
+  area: 0.00000001
 optimizer:
   lr: 0.0005
   lr_scheduler_step_size: 5000
@@ -60,13 +60,13 @@ train:
   resume: True
   freeze_geometry: True
   epoch:
-    teacher: 2800
+    teacher: 2000
     distill: 1000
-    finetune: 3500
+    finetune: 1000
     validation: 500
-    checkpoint: 10
+    checkpoint: 20
 test:
-  mode: 'render' # 'test_model'
+  mode: 'render'
   folder: ''
   vis:
     id: ''
