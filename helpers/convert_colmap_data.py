@@ -15,7 +15,7 @@ from mnh.dataset_replica import get_points_from_file
 
 def test():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset_dir", default="data/replica/llff_room")
+    parser.add_argument("--dataset_dir", default="data/TanksAndTemple/llff_room")
     parser.add_argument("--output_dir", default="")
     parser.add_argument("--split", default="train")
     parser.add_argument("--img_w", default="")
@@ -32,7 +32,7 @@ def test():
     image_txt = open(os.path.join(DATA_DIR, SPLIT, 'images.txt'), 'r')
     lines = image_txt.readlines()
 
-    for i in range(4, len(lines), 2):       # start from line 4
+    for i in range(0, len(lines), 2):      
         s = lines[i].split()
 
         # convert quaternion to 3x3 rotation matrix

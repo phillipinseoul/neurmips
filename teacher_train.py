@@ -183,6 +183,19 @@ def main(cfg: DictConfig):
                     img = tensor2Image(img)
                     path = os.path.join(img_folder, 'valid-{:0>5}-{}.png'.format(i, key))
                     img.save(path)
+                
+                # Add image to tensorboard
+                if i == 0:
+                    pred_img = valid_images['color_pred']
+                    pred_img = np.asarray(tensor2Image(pred_img))
+                    print(f'##### pred_img.shape: {pred_img.shape}')
+
+                    gt_img = valid_images['color_gt']
+                    gt_img = np.asarray(tensor2Image(gt_img))
+
+                    tboard_logger.add_image('pred_image', pred_img, epoch, dataformats='HWC')
+                    tboard_logger.add_image('gt_image', gt_img, epoch, dataformats='HWC')
+                    
 
             stats_logger.print_info('valid')
 

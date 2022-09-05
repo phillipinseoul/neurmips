@@ -97,6 +97,11 @@ def get_image_tensors(folder, channels:int=3):
     images = []
     for i in range(len(names)):
         img = Image.open(names[i])
+
+        # print(f'##### original img.size: {img.size} #####')
+        img = img.resize((int(img.width / 8), int(img.height / 8)))
+        # print(f'##### new img.size: {img.size} #####')
+
         img_array = np.array(img)[...,:channels]
         img_tensor = torch.FloatTensor(img_array)
         img_tensor /= 255.0
